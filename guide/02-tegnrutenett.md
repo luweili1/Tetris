@@ -47,7 +47,7 @@ Opprett nå `TetrisModel`, og la klassen implementere ViewableTetrisModel.
 
 > Hint: når du skal implementere metoden som returnerer noe med typen `GridDimension` som inneholder antall rader og kolonner -- har du tilfeldigvis et objekt med denne typen allerede som du enkelt kan returnere? :think:
 
-> Hint: når du skal implementere metoden som returnerer en `Iterable<CoordinateItem<Tile>>` som kan iterere over flisene på brettet -- har du tilfeldigvis et objekt med denne typen allerede som du enkelt kan returnere? :think:
+> Hint: når du skal implementere metoden som returnerer en `Iterable<GridCell<Character>>` som kan iterere over cellene på brettet -- har du tilfeldigvis et objekt med denne typen allerede som du enkelt kan returnere? :think:
 
 
 ## Knyt det sammen
