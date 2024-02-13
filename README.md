@@ -80,7 +80,7 @@ I denne oppgaven vil du bli vurdert ut ifra følgende kriterier:
  Dette er en individuell oppgave som benyttes som grunnlag for endelig karakter i faget. Av dette følger det at vi vil rapportere mistanker om juks til instituttet, med tilhørende alvorlige konsekvenser dersom det blir slått fast at juks har funnet sted. Vi klargjør derfor følgende:
 
  - Vi oppmuntrer til å diskutere med med-studenter underveis.
- - Vi oppmuntrer til å feilsøke sammen med andre studenter, inkludert å se på andre sine studenter sin kode. Men: det må dokumenteres i relevante deler av kildenkoden hvem man har jobbet med når andre studenter får se din kode.
+ - Vi oppmuntrer til å feilsøke sammen med andre studenter, inkludert å se på andre sine studenter sin kode. Men: det må dokumenteres i relevante deler av kildekoden hvem man har jobbet med når andre studenter får se din kode.
  - Vi oppmuntrer til å diskutere utfordringer med gruppeledere. Hjelp du får av gruppeledere trenger ikke å dokumenteres.
  - Det er lov å dele *korte utdrag* av kode med andre, f. eks over discord.
  - Det er *ikke* lov å **skrive av** kode. Når man feilsøker med andre, ser man kanskje andre sine løsninger, og kan bli inspirert av dem. Det er greit: men da må du dokumentere inspirasjonskilden din i relevante deler av kildekoden dersom du bruker noen idéer du har sett. Du kan likevel ikke skrive av løsningen linje for linje, men må reprodusere idéen på egen hånd uten å ha inspirasjonen foran deg.
