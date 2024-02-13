@@ -119,7 +119,7 @@ Metoden er ikke-static, og har derfor tilgang til alle instansvariabler.
 Å tegne selve spill-elementene i Tetris.
 
 **Pseudokode**
-* Opprett et rektangel-objekt med fast avstand til kantene på lerretet (se eksempel i kursnotater om grafikk).
+* Opprett et rektangel-objekt med fast avstand til kantene på lerretet (se eksempel i kursnotater om [grafikk](https://inf101.ii.uib.no/notat/grafikk/)).
 * Fyll dette rektangelet med fargen som tilhører rammen rundt rutenettet (farge hentes fra instansvariabel med fargetema, se ColorTheme).
 * Opprett et *CellPositionToPixelConverter* -objekt basert på samme rektangel. I eksempelillustrasjonen vår bruker vi en rammetykkelse (margin) på 2 piksler.
 * Tegn selve rutene ved å kalle på drawCells
