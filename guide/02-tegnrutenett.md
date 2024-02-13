@@ -1,6 +1,6 @@
 [forrige](./01-grid.md) &bullet; [oversikt](../README.md#steg-for-steg) &bullet; [neste](./03-tegnbrikke.md)
 
-# 2 Å tegne brettet
+# 2 | Å tegne brettet
 
 Nå du er ferdig med dette kapittelet, skal du kunne kjøre programmet og bli vist et brett:
 
@@ -194,7 +194,7 @@ Hint:
 
 
 For å teste CellPositionToPixelConverter:
-* Opprett en fil `TestCellPositionToPixelConverter` i test-hierarkiet i samme pakke (*no.uib.inf101.tetris.view*) og legg til følgende test:
+* Opprett en fil `CellPositionToPixelConverterTest` i test-hierarkiet i samme pakke (*no.uib.inf101.tetris.view*) og legg til følgende test:
 
 ```java
 @Test
