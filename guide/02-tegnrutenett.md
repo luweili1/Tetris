@@ -79,7 +79,7 @@ For å støtte automatiske tester:
 
 ```java
 @Test
-public void testPrettyString() {
+public void prettyStringTest() {
   TetrisBoard board = new TetrisBoard(3, 4);
   board.set(new CellPosition(0, 0), 'g');
   board.set(new CellPosition(0, 3), 'y');
@@ -243,11 +243,11 @@ For å benytte fargetemaet, gjør følgende grep i `TetrisView`:
 * (fremdeles i konstruktøren) hent bakgrunsfargen fra fargetema-objektet og bruk den som argument til et kall på `this.setBackground` -metoden som TetrisView har arvet fra JPanel.
 
 For å teste fargetemaet:
-* Opprett en fil `TestDefaultColorTheme` i test-hierarkiet i samme pakke (*no.uib.inf101.tetris.view*) og legg til følgende test (bytt ut med de fargene du forventer med ditt fargetema):
+* Opprett en fil `DefaultColorThemeTest` i test-hierarkiet i samme pakke (*no.uib.inf101.tetris.view*) og legg til følgende test (bytt ut med de fargene du forventer med ditt fargetema):
 
 ```java
 @Test
-public void sanityTestDefaultColorTheme() {
+public void sanityDefaultColorThemeTest() {
   ColorTheme colors = new DefaultColorTheme();
   assertEquals(null, colors.getBackgroundColor());
   assertEquals(new Color(0, 0, 0, 0), colors.getFrameColor());
