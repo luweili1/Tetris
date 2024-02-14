@@ -38,7 +38,7 @@ I modellen oppretter vi en pakke _no.uib.inf101.tetris.model.**tetromino**_. I d
 Opprett en klasse `Tetromino` som representerer en tetromino. Denne klassen skal være uforanderlig, det vil si at når et objekt først er opprettet skal det ikke kunne muteres.
 
 > En tetromino har tre egenskaper:
-> * et symbol som representer familen brikken tilhører: for eksempel `'T'`-familien, `'I'`-familien, `'S'`-familien, etc. Dette bestemmer hvilken farge tetrominoen skal tegnes med.
+> * et symbol som representerer familen brikken tilhører: for eksempel `'T'`-familien, `'I'`-familien, `'S'`-familien, etc. Dette bestemmer hvilken farge tetrominoen skal tegnes med.
 > * en fasong; for eksempel en stående T, eller T som er sidelengs, eller en T som er opp ned, eller en stående I, eller en liggende I etc.
 > * en posisjon på brettet
 >
