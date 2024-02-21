@@ -10,7 +10,7 @@ I denne oppgaven skal du følge en steg-for-steg -guide for å lage et enkelt Te
 
 Vi vil her først gi et fugleperspektiv av koden vi skal opprette; i guiden som er linket til nedenfor vil opprettelsen av disse klassene gjøres i mer detalj.
 
-Vi baserer modellen vår på design -prinsippet om [model-view-controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller), hvor vi i størst mulig grad ønsker å skille fra hverandre
+Vi baserer modellen vår på design-prinsippet om [model-view-controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller), hvor vi i størst mulig grad ønsker å skille fra hverandre
  - selve logikken og datastrukturene i modellen,
  - hvordan modellene *vises*, og
  - hvordan modellen *kontrolleres* av brukeren.
@@ -54,7 +54,7 @@ På samme måte som for visningen, er kontrolleren avhengig av tilgang til model
 
 ## Steg for steg
 
-1. [Opprett en grid -klasse](./guide/01-grid.md)
+1. [Opprett en grid-klasse](./guide/01-grid.md)
 2. [Tegne brettet](./guide/02-tegnrutenett.md)
 3. [Tegne en fallende brikke](./guide/03-tegnbrikke.md)
 4. [Flytte en fallende brikke](./guide/04-flyttebrikke.md)
@@ -69,11 +69,14 @@ På samme måte som for visningen, er kontrolleren avhengig av tilgang til model
 
 I denne oppgaven vil du bli vurdert ut ifra følgende kriterier:
 
- - Funksjonalitet (5 poeng)
- - Dokumentasjon (2 poeng)
- - Kodestil (2 poeng)
- - Testing (3 poeng)
- - Besvarelser på spørsmål (3 poeng)
+ - Funksjonalitet (5 poeng) - Fungerer programmet slik det skal? Følger du model-view-controller-prinsippet?
+ - Dokumentasjon (2 poeng) - Har du gode variabelnavn og javadocs som dokumenterer public og protected metoder?
+ - Kodestil (2 poeng) - Er koden din lett og lese? Har du fornuftige hjelpemetoder?
+ - Testing (3 poeng) - Tester du public/protected metoder? Tester du for hjørnetilfeller?
+ - Besvarelser på spørsmål (3 poeng) - Besvarer du spørsmålene presist og korrekt?
+
+ Du kan lese mer detaljert om kravene i denne [stilguiden](https://inf101v23.stromme.me/notat/stil/) (Vår stilguide er i bunn og grunn et lite utvalg fra [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html) med noen få tillegg).
+ Spesielt kodestil og dokumentasjon kan du finne mye nyttig informasjon om i stilguiden.
 
  ## Samarbeid
 

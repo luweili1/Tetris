@@ -2,7 +2,7 @@ forrige &bullet; [oversikt](../README.md#steg-for-steg) &bullet; [neste](./02-te
 
 # 1 Implementer grid
 
-Implementer klassene, `Grid`, `CellPosition` og `GridCell` i pakken *no.uib.inf101.tetris.grid*. Når du er ferdig skal alle testene som ble delt ut sammen med prosjektet passere. Bruk gjerne en av grid -klassene du har sett tidligere (i forelesning eller på laber) som inspirasjon/utgangspunkt og gjør tilpasninger.
+Implementer klassene, `Grid`, `CellPosition` og `GridCell` i pakken *no.uib.inf101.tetris.grid*. Når du er ferdig skal alle testene som ble delt ut sammen med prosjektet passere. Bruk gjerne en av grid-klassene du har sett tidligere (i forelesning eller på laber) som inspirasjon/utgangspunkt og gjør tilpasninger.
 
  - Opprett en record-klasse `CellPosition` med int'er `row` og `col`.
  

@@ -1,6 +1,6 @@
 [forrige](./01-grid.md) &bullet; [oversikt](../README.md#steg-for-steg) &bullet; [neste](./03-tegnbrikke.md)
 
-# 2 | Å tegne brettet
+# 2 Tegne brettet
 
 Nå du er ferdig med dette kapittelet, skal du kunne kjøre programmet og bli vist et brett:
 
@@ -28,14 +28,16 @@ For å tegne brettet trenger `TetrisView` å vite
 - hvor mange kolonner det er på brettet
 - for hver flis, hvilken farge den skal ha
 
-Vi må definere metoder i `ViewableTetrisModel` slik at `TetrisView` kan hente ut denne nødvendige informasjonen. Vi har i bakhodet av vi kun ønsker å ha tilgang til et minimum av nødvendig informasjon; begrens deg derfor til disse metodene i første omgang:
+Vi må definere metoder i `ViewableTetrisModel` slik at `TetrisView` kan hente ut denne nødvendige informasjonen. Vi har i bakhodet av vi kun ønsker å ha tilgang til et minimum av nødvendig informasjon. Begrens deg derfor til disse metodene i første omgang:
 - en metode *getDimension* uten parametre som returnerer et `GridDimension` -objekt, og
 - en metode *getTilesOnBoard* uten parametre som returnerer en `Iterable<GridCell<Character>>` som itererer over alle flisene på brettet. Mer presist, en metode som returnerer et objekt som, når det itereres over, gir alle posisjonene på brettet med tilhørende symbol.
 
 ## Opprett en modell
 
-Alle filene i dette avsnittet hører hjemme i pakken *no.uib.inf101.tetris.model*. Du må opprette denne pakken selv. Den viktigste klassen i denne pakken er `TetrisModel`, og den skal implementerer ViewableTetrisModel. Men aller først:
-- Opprett en klasse `TetrisBoard` som *utvider* Grid&lt;Character&gt;. Objekter i denne klassen representerer et tetrisbrett. Legg merke til at TetrisBoard-objekter derfor *er* et Grid&lt;Character&gt;-objekter, og arver alle metodene i Grid-klassen.
+Alle filene i dette avsnittet hører hjemme i pakken *no.uib.inf101.tetris.model*. Du må opprette denne pakken selv. 
+- Å opprette en pakke i VSCode er det samme som å lage en ny mappe (VSCode), eller en package (IntelliJ/Eclipse).
+Den viktigste klassen i denne pakken er `TetrisModel`. Men først ønsker vi å lage spillebrettet vårt:
+- Opprett en klasse `TetrisBoard` som *utvider* Grid&lt;Character&gt; i TetrisModel-pakken du nettopp opprettet. Objekter i denne klassen representerer et tetrisbrett. Legg merke til at TetrisBoard-objekter derfor *er* et Grid&lt;Character&gt;-objekter, og arver alle metodene i Grid-klassen.
     * La konstruktøren ha to parametre: antall rader og antall kolonner på brettet.
     * La konstruktøren gjøre et kall til super-konstruktøren.
     * I konstruktøren til `TetrisBoard`, initialiser alle posisjonene i rutenettet med verdien `'-'`. Denne verdien representerer at Tetris-brettet er tomt i den gitte posisjonen.
@@ -50,13 +52,12 @@ Opprett nå `TetrisModel`, og la klassen implementere ViewableTetrisModel.
 > Hint: når du skal implementere metoden som returnerer en `Iterable<GridCell<Character>>` som kan iterere over cellene på brettet -- har du tilfeldigvis et objekt med denne typen allerede som du enkelt kan returnere? :think:
 
 
-## Knyt det sammen
+## Knytt det sammen
 
 I `TetrisMain`:
-* Endre main-metoden slik at det er et `TetrisView` -objekt som vises i stedet for `SampleView`.  
-  * Det er her vi må opprette et TetrisView -objekt.
-  * Fordi konstruktøren til TetrisView krever å få en modell som skal tegnes som argument ved opprettelsen, må vi opprette et `TetrisModel` -objekt først (opprettes også i main-metoden).
-  * Fordi TetrisModel krever å få et brett ved opprettelsen, må vi opprette et `TetrisBoard` objekt enda før det igjen.
+* Endre main-metoden slik at det er et `TetrisView`-objekt som vises i stedet for `SampleView`.
+  * Fordi konstruktøren til TetrisView krever å få en modell som skal tegnes som argument ved opprettelsen, må vi opprette et `TetrisModel`-objekt først (opprettes også i main-metoden) og gi som argument til `TetrisView`.
+  * Fordi TetrisModel krever å få et brett ved opprettelsen, må vi opprette et `TetrisBoard` objekt og gi som argument til `TetrisModel`.
 
 > Et profesjonelt Tetris-brett har 20 rader og 10 kolonner; i illustrasjonene her bruker vi 15 rader.
 
@@ -97,21 +98,24 @@ public void prettyStringTest() {
 
 ## Tegn brettet
 
-Vi skal nå implementere selve tegningen i `TetrisView`, altså den delen av koden som befinner seg i `paintComponent` og tilhørende hjelpemetoder. Den overordnede strukturen skal være som følger:
-
-* `paintComponent`-metoden kaller på en hjelpemetode *drawGame*.
-* `drawGame` tegner rammen rundt brettet, og oppretter et *CellPositionToPixelConverter* -objekt. Den kaller deretter på hjelpemetoden *drawCells* for å helpe til med tegningen av selve rutene.
-* `drawCells` inneholder en løkke over rutene som skal tegnes. For hver rute kaller den hjelpemetoden *getBoundsForCell* for å få vite hvor ruten skal tegnes, og hjelpemetoden *getCellColor* for å finne ut hvilken farge ruten skal tegnes med. Så tegnes ruten på lerretet.
-* `getBoundsForCell`-metoden hører til et *CellPositionToPixelConverter* -objekt, og regner ut piksel-koordinatene til en rute basert på en dens posisjon (radnummer og kolonnenummer) i rutenettet.
-* `getCellColor`-metoden hører til et *ColorTheme* -objekt, og returnerer et `java.awt.Color` -objekt basert på en *char*.
-
 > Måten vi tenker på når vi skal utvikle og forstå helheten i et program er «top-down» -- man begynner med å dele opp oppgaven i store steg, og så drømmer vi opp hjelpemetoder vi trenger før disse hjelpemetodene faktisk eksisterer. Når vi skriver kode, er det ofte lettere å gjøre det «bottom up», slik at vi kan teste hver enkelt byggeklosse/metode mens vi holder på. Dette for å si: i hvilken rekkefølge du løser resten av oppgaven er opp til deg. **Det kan være lettest å begynne nederst med ColorTheme og jobbe deg baklengs opp hit igjen når du koder.**
+
+Vi skal nå implementere selve tegningen av brettet i `TetrisView`, altså den delen av koden som befinner seg i `paintComponent` og tilhørende hjelpemetoder. Den overordnede strukturen i **`TetrisView`-pakken** skal være som følger:
+
+`TetrisView`:
+  * `paintComponent`-metoden kaller på en hjelpemetode *drawGame*.
+  * `drawGame` tegner rammen rundt brettet, og oppretter et *CellPositionToPixelConverter* -objekt. Den kaller deretter på hjelpemetoden *drawCells* for å helpe til med tegningen av selve rutene.
+  * `drawCells` inneholder en løkke over rutene som skal tegnes. For hver rute kaller den hjelpemetoden *getBoundsForCell* for å få vite hvor ruten skal tegnes, og hjelpemetoden *getCellColor* for å finne ut hvilken farge ruten skal tegnes med. Så tegnes ruten på lerretet.
+`CellPositionToPixelConverter`
+ * `getBoundsForCell`-metoden hører til et *CellPositionToPixelConverter* -objekt, og regner ut piksel-koordinatene til en rute basert på en dens posisjon (radnummer og kolonnenummer) i rutenettet.
+`ColorTheme`
+ * `getCellColor`-metoden hører til et *ColorTheme* -objekt, og returnerer et `java.awt.Color` -objekt basert på en *char*.
 
 
 ### drawGame
 
 **Parametre**
- * en `Graphics2D` -variabel for lerretet det skal tegnes på.
+ * en `Graphics2D` -variabel for lerretet det skal tegnes på. **Graphics2D kan være vanskelig å få importert automatisk. Klassen ligger i `java.awt.Graphics2D`, og du kan importere denne øverst i klassen sammen med de andre importene**
  
 Metoden er ikke-static, og har derfor tilgang til alle instansvariabler.
 
@@ -259,7 +263,10 @@ public void sanityDefaultColorThemeTest() {
 
 ## Kodestil
 
-Se over koden din, og dobbeltsjekk at du har god kodestil.
+Se over koden din, og dobbeltsjekk at du har god kodestil. 
+> Du kan bruke Format Code funksjonen som IDE-en din tilbyr. I VSCode finner du denne ved å trykke Ctrl/Command+Shift+P og skrive >Format Document. Da får du fint formatert kode.
+
+Se over at du følger disse retningslinjene:
 * Unngå *magiske tall* i koden -- alle magiske tall skal være definert som en navngitt konstant (for eksempel `INNER_MARGIN` og `OUTER_MARGIN`)
 * Tenk på innkapsling. Bruk heller `private` enn `public` med mindre du har en god grunn til å gjøre noe annet.
 * Ha gode og selvbeskrivende variabelnavn. Det er bedre med et variabelnavn som er langt og beskrivende enn kort og uforståelig (selv om kort og selvbeskrivende er aller best). Dette gjelder spesielt feltvariabler og parametre.
