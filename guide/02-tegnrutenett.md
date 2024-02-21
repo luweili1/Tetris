@@ -35,7 +35,8 @@ Vi må definere metoder i `ViewableTetrisModel` slik at `TetrisView` kan hente u
 ## Opprett en modell
 
 Alle filene i dette avsnittet hører hjemme i pakken *no.uib.inf101.tetris.model*. Du må opprette denne pakken selv. 
-- Å opprette en pakke i VSCode er det samme som å lage en ny mappe (VSCode), eller en package (IntelliJ/Eclipse).
+> Å opprette en pakke i VSCode er det samme som å lage en ny mappe (VSCode), eller en package (IntelliJ/Eclipse).
+
 Den viktigste klassen i denne pakken er `TetrisModel`. Men først ønsker vi å lage spillebrettet vårt:
 - Opprett en klasse `TetrisBoard` som *utvider* Grid&lt;Character&gt; i TetrisModel-pakken du nettopp opprettet. Objekter i denne klassen representerer et tetrisbrett. Legg merke til at TetrisBoard-objekter derfor *er* et Grid&lt;Character&gt;-objekter, og arver alle metodene i Grid-klassen.
     * La konstruktøren ha to parametre: antall rader og antall kolonner på brettet.
@@ -104,18 +105,22 @@ Vi skal nå implementere selve tegningen av brettet i `TetrisView`, altså den d
 
 `TetrisView`:
   * `paintComponent`-metoden kaller på en hjelpemetode *drawGame*.
-  * `drawGame` tegner rammen rundt brettet, og oppretter et *CellPositionToPixelConverter* -objekt. Den kaller deretter på hjelpemetoden *drawCells* for å helpe til med tegningen av selve rutene.
+  * `drawGame` tegner rammen rundt brettet, og oppretter et *CellPositionToPixelConverter*-objekt. Den kaller deretter på hjelpemetoden *drawCells* for å helpe til med tegningen av selve rutene.
   * `drawCells` inneholder en løkke over rutene som skal tegnes. For hver rute kaller den hjelpemetoden *getBoundsForCell* for å få vite hvor ruten skal tegnes, og hjelpemetoden *getCellColor* for å finne ut hvilken farge ruten skal tegnes med. Så tegnes ruten på lerretet.
-`CellPositionToPixelConverter`
- * `getBoundsForCell`-metoden hører til et *CellPositionToPixelConverter* -objekt, og regner ut piksel-koordinatene til en rute basert på en dens posisjon (radnummer og kolonnenummer) i rutenettet.
-`ColorTheme`
- * `getCellColor`-metoden hører til et *ColorTheme* -objekt, og returnerer et `java.awt.Color` -objekt basert på en *char*.
+
+`CellPositionToPixelConverter`:
+ * `getBoundsForCell`-metoden hører til et *CellPositionToPixelConverter*-objekt, og regner ut piksel-koordinatene til en rute basert på en dens posisjon (radnummer og kolonnenummer) i rutenettet.
+
+`ColorTheme`:
+ * `getCellColor`-metoden hører til et *ColorTheme* -objekt, og returnerer et `java.awt.Color`-objekt basert på en *char*.
 
 
 ### drawGame
 
 **Parametre**
- * en `Graphics2D` -variabel for lerretet det skal tegnes på. **Graphics2D kan være vanskelig å få importert automatisk. Klassen ligger i `java.awt.Graphics2D`, og du kan importere denne øverst i klassen sammen med de andre importene**
+ * en `Graphics2D` -variabel for lerretet det skal tegnes på. 
+ 
+>Graphics2D kan være vanskelig å få importert automatisk. Klassen ligger i `java.awt.Graphics2D`, og du kan importere denne øverst i klassen sammen med de andre importene.
  
 Metoden er ikke-static, og har derfor tilgang til alle instansvariabler.
 
@@ -132,7 +137,7 @@ Metoden er ikke-static, og har derfor tilgang til alle instansvariabler.
 ### drawCells
 
 **Parametre**
-* en `Graphics2D` -variabel for lerretet det skal tegnes på,
+* en `Graphics2D`-variabel for lerretet det skal tegnes på,
 * en `Iterable<GridCell<Character>>` for samlingen av ruter som skal tegnes,
 * en `CellPositionToPixelConverter` -variabel for å oversette fra posisjon i rutenettet til et rektangelobjekt, samt
 * en `ColorTheme` -variabel for å bestemme fargene.
