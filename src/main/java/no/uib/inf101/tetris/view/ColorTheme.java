@@ -2,8 +2,6 @@ package no.uib.inf101.tetris.view;
 
 import java.awt.Color;
 
-import no.uib.inf101.grid.GridCell;
-
 public interface ColorTheme {
 
     /**

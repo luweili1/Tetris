@@ -50,6 +50,30 @@ public class TestTetrisBoard {
   }
 
   @Test
+  public void testKeepBottomRow() {
+    TetrisBoard board = getTetrisBoardWithContents(new String[] { "-T", "-T", "LT", "LT", "L-" });
+    assertEquals(2, board.removeFullRows());
+    String expected = String.join("\n", new String[] { "--", "--", "-T", "-T", "L-" });
+    assertEquals(expected, board.prettyString());
+  }
+
+  @Test
+  public void testRemoveTopRow() {
+    TetrisBoard board = getTetrisBoardWithContents(new String[] { "TT", "-T", "-T", "L-", "-L" });
+    assertEquals(1, board.removeFullRows());
+    String expected = String.join("\n", new String[] { "--", "-T", "-T", "L-", "-L" });
+    assertEquals(expected, board.prettyString());
+  }
+
+  @Test
+  public void testDifferentBoardWidth() {
+    TetrisBoard board = getTetrisBoardWithContents(new String[] { "-T-", "TTT", "LLL", "-L-", "L-L" });
+    assertEquals(2, board.removeFullRows());
+    String expected = String.join("\n", new String[] { "---", "---", "-T-", "-L-", "L-L" });
+    assertEquals(expected, board.prettyString());
+  }
+
+  @Test
   public void testRemoveFullRowsButKeepBottom() {
 
     TetrisBoard board = new TetrisBoard(5, 2);
@@ -74,31 +98,19 @@ public class TestTetrisBoard {
     assertEquals(expected, board.prettyString());
   }
 
-  @Test
-  public void testRemoveTopRow() {
-    TetrisBoard board = new TetrisBoard(5, 6);
-    board.setRowValue(0, '-');
-    board.set(new CellPosition(0, 2), 'T');
-    board.set(new CellPosition(0, 3), 'T');
-    board.set(new CellPosition(1, 2), 'T');
-    board.set(new CellPosition(2, 5), 'T');
-    board.set(new CellPosition(3, 2), 'T');
-    board.set(new CellPosition(3, 3), 'T');
-    board.set(new CellPosition(4, 1), 'T');
-    board.set(new CellPosition(4, 2), 'T');
-    board.set(new CellPosition(4, 3), 'T');
-    board.set(new CellPosition(4, 4), 'T');
-
-    assertEquals(1, board.removeFullRows());
-
-    String expected = String.join("\n", new String[] {
-        "------",
-        "--TT--",
-        "----T-",
-        "--TT--",
-        "-TTTT-"
-    });
-    assertEquals(expected, board.prettyString());
+  private TetrisBoard getTetrisBoardWithContents(String[] contents) {
+    int height = contents.length;
+    int width = contents[0].length();
+    TetrisBoard board = new TetrisBoard(height, width);
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        char cellContent = contents[i].charAt(j);
+        if (cellContent != '-') {
+          board.set(new CellPosition(i, j), cellContent);
+        }
+      }
+    }
+    return board;
   }
 
 }

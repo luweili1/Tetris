@@ -176,6 +176,39 @@ public final class Tetromino implements Iterable<GridCell<Character>> {
         return cellPosition;
     }
 
+    /**
+     * Checks if a tetromino placement is a legal move on the grid.
+     * 
+     * @param grid               The grid.
+     * @param tetrominoCandidate The tetromino to check.
+     * @return True if the move is legal, false otherwise.
+     */
+    public boolean isLegalMove(Grid<Character> grid, Tetromino tetrominoCandidate) {
+        int startRow = tetrominoCandidate.cellPosition.row();
+        int startCol = tetrominoCandidate.cellPosition.col();
+
+        ArrayList<CellPosition> tetrominoPositions = new ArrayList<>();
+        for (int row = 0; row < tetrominoCandidate.shape.length; row++) {
+            for (int col = 0; col < tetrominoCandidate.shape[0].length; col++) {
+                if (tetrominoCandidate.shape[row][col]) {
+                    tetrominoPositions.add(new CellPosition(row + startRow, col + startCol));
+                }
+            }
+        }
+
+        for (CellPosition tetrominoPosition : tetrominoPositions) {
+            int gridRow = tetrominoPosition.row();
+            int gridCol = tetrominoPosition.col();
+
+            if (gridRow < 0 || gridRow >= grid.rows() || gridCol < 0 || gridCol >= grid.cols()
+                    || !grid.get(tetrominoPosition).equals('-')) {
+
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public Iterator<GridCell<Character>> iterator() {
         ArrayList<GridCell<Character>> cells = new ArrayList<GridCell<Character>>();
@@ -205,33 +238,6 @@ public final class Tetromino implements Iterable<GridCell<Character>> {
     @Override
     public int hashCode() {
         return Objects.hash(symbol, Arrays.deepHashCode(shape), cellPosition);
-    }
-
-    public boolean isLegalMove(Grid<Character> grid, Tetromino tetrominoCandidate) {
-        int startRow = tetrominoCandidate.cellPosition.row();
-        int startCol = tetrominoCandidate.cellPosition.col();
-
-        ArrayList<CellPosition> tetrominoPositions = new ArrayList<>();
-        for (int row = 0; row < tetrominoCandidate.shape.length; row++) {
-            for (int col = 0; col < tetrominoCandidate.shape[0].length; col++) {
-                if (tetrominoCandidate.shape[row][col]) {
-                    tetrominoPositions.add(new CellPosition(row + startRow, col + startCol));
-                }
-            }
-        }
-
-        for (CellPosition tetrominoPosition : tetrominoPositions) {
-            int gridRow = tetrominoPosition.row();
-            int gridCol = tetrominoPosition.col();
-
-            if (gridRow < 0 || gridRow >= grid.rows() || gridCol < 0 || gridCol >= grid.cols()
-                    || !grid.get(tetrominoPosition).equals('-')) {
-
-                return false;
-            }
-        }
-        return true;
-
     }
 
 }

@@ -8,26 +8,17 @@ import no.uib.inf101.tetris.model.tetromino.TetrominoFactory;
 import no.uib.inf101.tetris.view.ViewableTetrisModel;
 
 public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel {
-    TetrominoFactory randomTetromino;
-    TetrisBoard board;
-    Tetromino currentTetromino;
-    Tetromino tetromino;
-
+    private TetrominoFactory randomTetromino;
+    private TetrisBoard board;
+    private Tetromino currentTetromino;
+    private Tetromino tetromino;
     private GameState gameState;
-    private int score;
-    private int level;
-
-    public void setGameState(GameState state) {
-        gameState = state;
-    }
 
     public TetrisModel(TetrisBoard board, TetrominoFactory randomTetromino) {
         this.board = board;
         this.randomTetromino = randomTetromino;
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(board);
         gameState = GameState.WELCOME_SCREEN;
-        score = 0;
-        level = 0;
 
     }
 
@@ -73,12 +64,6 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
                 board.set(cell.pos(), cell.value());
             }
             int removedRows = board.removeFullRows();
-            if (removedRows > 0) {
-                score += calculateScore(removedRows);
-                if (removedRows % 10 == 0) {
-                    level++;
-                }
-            }
 
             Tetromino newTetromino = randomTetromino.getNext().shiftedToTopCenterOf(board);
             if (isPositionPossible(newTetromino)) {
@@ -89,70 +74,30 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
         }
     }
 
-    private int calculateScore(int clearedRows) {
-        int baseScore = 0;
-        switch (clearedRows) {
-            case 1:
-                baseScore = 100;
-                break;
-            case 2:
-                baseScore = 300;
-                break;
-            case 3:
-                baseScore = 500;
-                break;
-            case 4:
-                baseScore = 800;
-                break;
-            default:
-                break;
-        }
-        return baseScore * level;
-    }
-
-    private void updateScoreAndLevel(int clearedRows) {
-        score += calculateScore(clearedRows);
-        // Increase level every 10 cleared rows
-        level = Math.min(score / 1000 + 1, 10); // Adjust level-up conditions as needed
-    }
-
+    /**
+     * Resets the game by clearing the board, setting the gameState to
+     * WELCOME_SCREEN, and starting a new game.
+     */
     public void resetGame() {
-        // Tilbakestill brettet
         board.clear();
-
-        // Tilbakestill score
-        score = 0;
-
-        // Tilbakestill spilltilstanden til velkomstskjermen
         gameState = GameState.WELCOME_SCREEN;
-
-        // Start et nytt spill
         startNewGame();
     }
 
+    /**
+     * Starts a new game by generating a new random tetromino and placing it at the
+     * top center of the board.
+     */
     private void startNewGame() {
-        // Opprett et nytt tetromino
         tetromino = randomTetromino.getNext().shiftedToTopCenterOf(board);
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    @Override
-    public Iterable<GridCell<Character>> getTilesOnBoard() {
-        return board;
-    }
-
-    @Override
-    public Iterable<GridCell<Character>> getFallingPieceCells() {
-        return tetromino;
-    }
-
+    /**
+     * Checks if the given tetromino can be placed on the board.
+     * 
+     * @param tetromino The tetromino to check.
+     * @return True if the position is possible, false otherwise.
+     */
     private boolean isPositionPossible(Tetromino tetromino) {
         for (GridCell<Character> cell : tetromino) {
 
@@ -167,11 +112,13 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
 
     }
 
-    @Override
-    public GridDimension getDimension() {
-        return board;
-    }
-
+    /**
+     * Move the tetromino by specific amounts of row and cols.
+     * 
+     * @param deltaRow The amount of row to move.
+     * @param deltaCol The amount of col to move.
+     * @return True if the tetromino is succesfully moved, false othervise.
+     */
     public boolean moveTetromino(int deltaRow, int deltaCol) {
         Tetromino newTetromino = tetromino.shiftedBy(deltaRow, deltaCol);
         if (tetromino.isLegalMove(board, newTetromino)) {
@@ -183,12 +130,26 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
     }
 
     @Override
+    public Iterable<GridCell<Character>> getTilesOnBoard() {
+        return board;
+    }
+
+    @Override
+    public Iterable<GridCell<Character>> getFallingPieceCells() {
+        return tetromino;
+    }
+
+    @Override
+    public GridDimension getDimension() {
+        return board;
+    }
+
+    @Override
     public void dropTetromino() {
         while (moveTetromino(1, 0)) {
 
         }
         lockTetrominoAndSpawnNew();
-
     }
 
     @Override
@@ -210,6 +171,11 @@ public class TetrisModel implements ViewableTetrisModel, ControllableTetrisModel
                 setGameState(GameState.ACTIVE_GAME);
             }
         }
+    }
+
+    @Override
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
 }

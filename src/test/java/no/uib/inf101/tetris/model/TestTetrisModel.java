@@ -2,6 +2,7 @@ package no.uib.inf101.tetris.model;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import no.uib.inf101.grid.CellPosition;
 import no.uib.inf101.grid.GridCell;
 import no.uib.inf101.tetris.model.tetromino.PatternedTetrominoFactory;
+import no.uib.inf101.tetris.model.tetromino.RandomTetrominoFactory;
 import no.uib.inf101.tetris.model.tetromino.Tetromino;
 import no.uib.inf101.tetris.model.tetromino.TetrominoFactory;
 import no.uib.inf101.tetris.view.ViewableTetrisModel;
@@ -80,31 +82,6 @@ public class TestTetrisModel {
     }
 
     @Test
-    public void testDropTetromino() {
-        TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
-        TetrominoFactory tetrisFactory = new PatternedTetrominoFactory("O");
-        TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrisFactory);
-
-        List<GridCell<Character>> tetroCells = new ArrayList<>();
-        for (GridCell<Character> gc : tetrisModel.getFallingPieceCells()) {
-            tetroCells.add(gc);
-        }
-
-        tetrisModel.dropTetromino();
-
-        List<GridCell<Character>> tetroCellsAfterDrop = new ArrayList<>();
-        for (GridCell<Character> gc : tetrisModel.getFallingPieceCells()) {
-            tetroCellsAfterDrop.add(gc);
-        }
-
-        assertEquals(tetrisBoard.get(new CellPosition(19, 4)), 'O');
-        assertEquals(tetrisBoard.get(new CellPosition(19, 5)), 'O');
-        assertEquals(tetrisBoard.get(new CellPosition(18, 4)), 'O');
-        assertEquals(tetrisBoard.get(new CellPosition(18, 5)), 'O');
-        assertEquals(tetroCellsAfterDrop.size(), 4);
-    }
-
-    @Test
     public void testClocktick() {
         TetrisBoard board = new TetrisBoard(20, 10);
         TetrominoFactory factory = new PatternedTetrominoFactory("I");
@@ -130,6 +107,69 @@ public class TestTetrisModel {
         assertTrue(tetroCellClockTick.contains(new GridCell<>(new CellPosition(1, 5), 'I')));
         assertTrue(tetroCellClockTick.contains(new GridCell<>(new CellPosition(1, 6), 'I')));
 
+    }
+
+    @Test
+    public void testDropTetromino() {
+        TetrisBoard tetrisBoard = new TetrisBoard(20, 10);
+        TetrominoFactory tetrisFactory = new PatternedTetrominoFactory("O");
+        TetrisModel tetrisModel = new TetrisModel(tetrisBoard, tetrisFactory);
+
+        List<GridCell<Character>> tetroCells = new ArrayList<>();
+        for (GridCell<Character> gc : tetrisModel.getFallingPieceCells()) {
+            tetroCells.add(gc);
+        }
+
+        tetrisModel.dropTetromino();
+
+        List<GridCell<Character>> tetroCellsAfterDrop = new ArrayList<>();
+        for (GridCell<Character> gc : tetrisModel.getFallingPieceCells()) {
+            tetroCellsAfterDrop.add(gc);
+        }
+
+        assertEquals(tetrisBoard.get(new CellPosition(19, 4)), '-');
+        assertEquals(tetrisBoard.get(new CellPosition(19, 5)), '-');
+        assertEquals(tetrisBoard.get(new CellPosition(18, 4)), '-');
+        assertEquals(tetrisBoard.get(new CellPosition(18, 5)), '-');
+
+        assertEquals(tetroCellsAfterDrop.size(), 4);
+    }
+
+    @Test
+    public void testSuccessfulMove() {
+        TetrisBoard board = new TetrisBoard(3, 6);
+        TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
+        TetrisModel model = new TetrisModel(board, tetrominoFactory);
+        assertTrue(model.moveTetromino(0, 1));
+    }
+
+    @Test
+    public void testTetrominoChangeAfterSuccessfulMove() {
+        TetrisBoard board = new TetrisBoard(3, 6);
+        TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
+        TetrisModel tetrisModel = new TetrisModel(board, tetrominoFactory);
+
+        List<GridCell<Character>> initialPositions = new ArrayList<>();
+        for (GridCell<Character> position : tetrisModel.getFallingPieceCells()) {
+            initialPositions.add(position);
+        }
+
+        tetrisModel.moveTetromino(0, -1);
+
+        List<GridCell<Character>> newPositions = new ArrayList<>();
+        for (GridCell<Character> position : tetrisModel.getFallingPieceCells()) {
+            newPositions.add(position);
+        }
+
+        assertNotEquals(initialPositions, newPositions);
+    }
+
+    @Test
+    public void testOutOfBoundsMove() {
+        TetrisBoard board = new TetrisBoard(4, 4);
+        TetrominoFactory tetrominoFactory = new RandomTetrominoFactory();
+        TetrisModel model = new TetrisModel(board, tetrominoFactory);
+        assertFalse(model.moveTetromino(0, -1));
     }
 
 }

@@ -14,22 +14,73 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+/**
+ * A class representing the view of the Tetris game.
+ */
 public class TetrisView extends JPanel {
   private ViewableTetrisModel tetrisModel;
   private ColorTheme colorTheme;
-  private static final double MARGIN = 1;
+  private static final double MARGIN = 7;
   private GameState gameState;
 
+  /**
+   * Sets the game state of the view.
+   * 
+   * @param gameState The game state.
+   */
   public void setGameState(GameState gameState) {
     this.gameState = gameState;
   }
 
+  /**
+   * Constructs a TetrisView with the specified TetrisModel.
+   * 
+   * @param tetrisModel The TetrisModel connect with the view.
+   */
   public TetrisView(TetrisModel tetrisModel) {
     this.tetrisModel = tetrisModel;
     this.colorTheme = new DefaultColorTheme();
 
     this.setBackground(colorTheme.getBackgroundColor());
     this.setPreferredSize(new Dimension(300, 600));
+  }
+
+  /**
+   * Draws the game on the Graphics2D context.
+   * 
+   * @param g2 The Graphics2D context.
+   */
+  private void drawGame(Graphics2D g2) {
+    Rectangle2D gridbox = new Rectangle.Double(0, 0, getWidth(), getHeight());
+    g2.setColor(colorTheme.getBackgroundColor());
+    g2.fill(gridbox);
+
+    CellPositionToPixelConverter converter = new CellPositionToPixelConverter(gridbox, tetrisModel.getDimension(),
+        MARGIN);
+
+    drawCells(g2, tetrisModel.getTilesOnBoard(), converter, colorTheme);
+
+    drawCells(g2, tetrisModel.getFallingPieceCells(), converter, colorTheme);
+
+  }
+
+  /**
+   * Draws the cells of the game grid on the Graphics2D context.
+   * 
+   * @param g2         The Graphics2D
+   * @param grid       The grid.
+   * @param converter  A CellPositionToPixelConverter object to convert cell
+   *                   positions to pixel positions.
+   * @param colorTheme A colortheme to detetermine the color of the cells.
+   */
+  private void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid, CellPositionToPixelConverter converter,
+      ColorTheme colorTheme) {
+    for (GridCell<Character> cell : grid) {
+      Rectangle2D celle = converter.getBoundsForCell(cell.pos());
+      g2.setColor(colorTheme.getCellColor(cell.value()));
+      g2.fill(celle);
+
+    }
 
   }
 
@@ -70,45 +121,12 @@ public class TetrisView extends JPanel {
       int y = (this.getHeight() - g2.getFontMetrics().getHeight()) / 2;
       g2.drawString("Game Over", x, y);
 
-      g2.setFont(new Font("Italic", Font.BOLD, 24));
-      int score = tetrisModel.getScore();
-      String scoreText = "Score: " + score;
-      int xScore = (this.getWidth() - g2.getFontMetrics().stringWidth(scoreText)) / 2;
-      int yScore = y + g2.getFontMetrics().getHeight() + 20;
-      g2.drawString(scoreText, xScore, yScore);
-
       String restartText = "Press Enter to play again";
       g2.setFont(new Font("Italic", Font.BOLD, 18));
       int xRestart = (this.getWidth() - g2.getFontMetrics().stringWidth(restartText)) / 2;
-      int yRestart = yScore + g2.getFontMetrics().getHeight() + 10;
+      int yRestart = y + g2.getFontMetrics().getHeight() + 10; // Adjusted this line
       g2.drawString(restartText, xRestart, yRestart);
     }
-
-  }
-
-  private void drawGame(Graphics2D g2) {
-    Rectangle2D gridbox = new Rectangle.Double(0, 0, getWidth(), getHeight());
-    g2.setColor(colorTheme.getBackgroundColor());
-    g2.fill(gridbox);
-
-    CellPositionToPixelConverter converter = new CellPositionToPixelConverter(gridbox, tetrisModel.getDimension(),
-        MARGIN);
-
-    drawCells(g2, tetrisModel.getTilesOnBoard(), converter, colorTheme);
-
-    drawCells(g2, tetrisModel.getFallingPieceCells(), converter, colorTheme);
-
-  }
-
-  private void drawCells(Graphics2D g2, Iterable<GridCell<Character>> grid, CellPositionToPixelConverter converter,
-      ColorTheme colorTheme) {
-    for (GridCell<Character> cell : grid) {
-      Rectangle2D celle = converter.getBoundsForCell(cell.pos());
-      g2.setColor(colorTheme.getCellColor(cell.value()));
-      g2.fill(celle);
-
-    }
-
   }
 
 }

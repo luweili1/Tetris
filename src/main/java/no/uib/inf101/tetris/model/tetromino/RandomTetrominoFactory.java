@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * The class implement the TetrominoFactory interface that generates tetrominos
- * randomly
+ * randomly.
  */
 public class RandomTetrominoFactory implements TetrominoFactory {
 

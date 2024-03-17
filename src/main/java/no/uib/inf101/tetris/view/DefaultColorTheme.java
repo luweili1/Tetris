@@ -4,9 +4,20 @@ import java.awt.Color;
 
 import no.uib.inf101.tetris.model.GameState;
 
+/**
+ * A default implementation of the ColorTheme interface.
+ */
 public class DefaultColorTheme implements ColorTheme {
+    /**
+     * Sets the color theme based on the current game state, transparent.
+     */
     public static final Color TRANSPARENT = new Color(0, 0, 0, 128);
 
+    /**
+     * The current game state.
+     * 
+     * @param gameState The current game state.
+     */
     public void setGameState(GameState gameState) {
     }
 
@@ -27,7 +38,6 @@ public class DefaultColorTheme implements ColorTheme {
         };
 
         return color;
-
     }
 
     @Override

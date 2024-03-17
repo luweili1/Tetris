@@ -18,5 +18,7 @@ Det jeg har lært under tetris er:
 
 ## Hvilke grep gjør vi for å øke modulariteten i koden? Gi noen eksempeler.
 For å øke modulariteten i koden må man dele koden inn til mindre, dvs:
-- Opprette flere klasser og metoder, som deler koden i mindre og uavhengige enheter. 
-- Passe på at hver modul og klasse har 
+- Opprette flere klasser og metoder, bryte koden ned til mindre og mer leselige metoder for å øke forståelsen og lesbarheten av koden.
+- Bruke pakker eller moduler for å organisere og gruppere relaterte klasser og ressurser sammen.
+- Bruke grensesnitt for å separere implementasjon og definisjon.
+

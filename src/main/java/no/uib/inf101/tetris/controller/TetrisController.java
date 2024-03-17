@@ -12,21 +12,21 @@ import no.uib.inf101.tetris.model.TetrisModel;
 import no.uib.inf101.tetris.view.TetrisView;
 
 /**
- * 
+ * The class TetrisController is responsible for controlling the Tetris game.
  */
 public class TetrisController implements KeyListener, ActionListener {
 
-    TetrisModel model;
-    ControllableTetrisModel controllableTetrisModel;
-    TetrisView tetrisView;
-    Timer timer;
-    TetrisSong song;
+    private TetrisModel model;
+    private ControllableTetrisModel controllableTetrisModel;
+    private TetrisView tetrisView;
+    private Timer timer;
+    private TetrisSong song;
 
     /**
      * Constructs a new instance of TetrisController.
      * 
-     * @param controllableTetrisModel
-     * @param tetrisView
+     * @param controllableTetrisModel The controllable Tetris model
+     * @param tetrisView              The tetris view
      */
     public TetrisController(ControllableTetrisModel controllableTetrisModel, TetrisView tetrisView) {
         this.controllableTetrisModel = controllableTetrisModel;
@@ -68,7 +68,6 @@ public class TetrisController implements KeyListener, ActionListener {
                 controllableTetrisModel.setGameState(GameState.ACTIVE_GAME);
             }
             if (controllableTetrisModel.getGameState() == GameState.GAME_OVER) {
-                // Start spillet på nytt hvis spilleren trykker på enter
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     controllableTetrisModel.resetGame();
                 }
